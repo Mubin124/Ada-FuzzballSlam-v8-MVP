@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
+
+		<title>Ada Fuzzball Slam v8 Collision</title>
+
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bungee+Shade&display=swap" rel="stylesheet">
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js" integrity="sha512-WIklPM6qPCIp6d3fSSr90j+1unQHUOoWDS4sdTiR8gxUTnyZ8S2Mr8e10sKKJ/bhJgpAa/qG068RDkg6fIlNFA==" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/addons/p5.sound.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.14.2/matter.min.js" integrity="sha512-pi0tSRZdlNRZeANPwdAIHRAYg6gZZV6QlAiyHXn5TYqLzBKE9jlttO/QgYLMhISD6oNv2kPsVelx+n5nw0FqKA==" crossorigin="anonymous"></script>
+
+		<script src="class.js"></script>
+		<link rel="stylesheet" href="style.css">
+ 
+		<!-- basic version 8 -->
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="viewport_container">
+				<!-- game viewport goes here-->
+			</div>
+			<div class="controller">
+			</div>
+		</div>
+
+		<script src="script.js"></script>
+		
+
+		<button onclick="apply_velocity();">Apply Velocity</button>
+		<button onclick="apply_angularvelocity();">Apply Angular</button>
+		<button onclick="apply_force();">Apply Force</button>
+		<button onclick="audiotrack();">Start/Stop Audio</button>
+	</body>
+</html>
