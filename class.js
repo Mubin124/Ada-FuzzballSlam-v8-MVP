@@ -80,9 +80,9 @@ class c_ground {
 
 	show() {
 		let pos = this.body.position; //create an shortcut alias 
-		rectMode(CENTER); //switch centre to be centre rather than left, top
-		fill(this.color); //set the fill colour
-		rect(pos.x, pos.y, this.width, this.height); //draw the rectangle
+	//	rectMode(CENTER); //switch centre to be centre rather than left, top
+	//	fill(this.color); //set the fill colour
+	//	rect(pos.x, pos.y, this.width, this.height); //draw the rectangle
 	}
 }
 
