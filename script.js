@@ -1,7 +1,7 @@
 "use strict";
 
 var vp_width = 920, vp_height = 690; //declare variables to hold the viewport size
-var max_crates = 2;
+var max_crates = 9;
 
 //declare global variables to hold the framework objects
 var viewport, world, engine, body, elastic_constraint;
@@ -21,6 +21,8 @@ var crateimage;
 
 var music;
 var hit;
+
+var myscore = 0;
 
 function apply_velocity() {
 	Matter.Body.setVelocity( fuzzball.body, {x: get_random(0, 20), y: get_random(0, 20)*-1});
@@ -47,6 +49,9 @@ function apply_force() {
 };
 
 function hittrack() {
+	
+	myscore += 10;
+
 	hit.setVolume(0.02);
 	if(hit.isPlaying()) {
 		hit.stop();
@@ -54,6 +59,8 @@ function hittrack() {
 	} else {
 		hit.play();
 	}
+	document.getElementById('score').innerText = "Score: " + myscore;
+	showscore();
 }
 
 function audiotrack() {
@@ -84,6 +91,23 @@ function preload() {
 	hit = loadSound("https://adaresource.s3.eu-west-2.amazonaws.com/assets/fuzzballslam/Hit.mp3");
 }
 
+//function detectcollision(object1, object2) {
+//	var collide = false;
+//
+//	if((object1 === "fuzzball" && object2 === "crate0") || (object2 === "crate0" && object1 === "fuzzball"))	{
+//		collide = true
+//	}
+//
+//	return collide;
+//}
+
+function detectcollision(collide, object1, object2) {
+	var impact = false;
+	if(collide.bodyA.label === object1 && collide.bodyB.label === object2 || collide.bodyA.label === object2 && collide.bodyB.label === object1 ) {
+		impact = true;
+	}
+	return impact;
+}
 
 function collisions(event) {
 
@@ -91,27 +115,38 @@ function collisions(event) {
 		
 		console.log(collide.bodyA.label + " - " + collide.bodyB.label);
 
-
-		if((collide.bodyA.label === "fuzzball" && collide.bodyB.label === "crate0") || (collide.bodyA.label=== "crate0" && collide.bodyB.label === "fuzzball"))	{
-			hittrack();
+		for(let i = 0; i < max_crates; i++) { //loop for each instance of a crate
+			if(detectcollision(collide, "fuzzball", "crate" + i )) {
+					hittrack();
+			}
 		}
 
-		if((collide.bodyA.label === "fuzzball" && collide.bodyB.label === "crate1") || (collide.bodyA.label=== "crate1" && collide.bodyB.label === "fuzzball"))	{
-			hittrack();
-		}
+	
+
+//		if( detectcollision(collide.bodyA.label, collide.bodyB.label) ) {
+//				hittrack();
+//		}
+
+//		if((collide.bodyA.label === "fuzzball" && collide.bodyB.label === "crate0") || (collide.bodyA.label=== "crate0" && collide.bodyB.label === "fuzzball"))	{
+//			hittrack();
+//		}
+
+//		if((collide.bodyA.label === "fuzzball" && collide.bodyB.label === "crate1") || (collide.bodyA.label=== "crate1" && collide.bodyB.label === "fuzzball"))	{
+//			hittrack();
+//		}
 
 
-		if((collide.bodyA.label === "fuzzball" && collide.bodyB.label === "rightwall") || (collide.bodyA.label=== "rightwall" && collide.bodyB.label === "fuzzball"))	{
-			rightwall.colour = "#ff0000";
-		} else {
-			rightwall.colour = "#ffffff";
-		}
+//		if((collide.bodyA.label === "fuzzball" && collide.bodyB.label === "rightwall") || (collide.bodyA.label=== "rightwall" && collide.bodyB.label === "fuzzball"))	{
+//			rightwall.colour = "#ff0000";
+//		} else {
+//			rightwall.colour = "#ffffff";
+//		}
 			
-		if((collide.bodyA.label=== "fuzzball" && collide.bodyB.label === "leftwall") || (collide.bodyA.label=== "leftwall" && collide.bodyB.label === "fuzzball"))	{
-			leftwall.colour = "#ff0000";
-		} else {
-			leftwall.colour = "#ffffff";
-		}
+//		if((collide.bodyA.label=== "fuzzball" && collide.bodyB.label === "leftwall") || (collide.bodyA.label=== "leftwall" && collide.bodyB.label === "fuzzball"))	{
+//			leftwall.colour = "#ff0000";
+//		} else {
+//			leftwall.colour = "#ffffff";
+//		}
 	});
 }
 
@@ -152,7 +187,7 @@ function setup() {
 	Matter.World.add(world, elastic_constraint); //add the elastic constraint object to the world
 //	elastic_constraint.collisionFilter.mask =  defaultCategory | Category1  ; //| Category2
 
-	ground = new c_ground(vp_width/2, vp_height-10, vp_width, 20, "ground"); //create a ground object
+	ground = new c_ground(vp_width/2, vp_height-30, vp_width, 20, "ground"); //create a ground object
 	leftwall = new c_ground(-24, vp_height/2, 50, vp_height, "leftwall");
 	rightwall = new c_ground(vp_width+24, vp_height/2, 50, vp_height, "rightwall");
 	
@@ -211,7 +246,7 @@ function draw() {
 			line(pos.x, pos.y, mouse.x, mouse.y);
 		}
 	}
-	console.log("Matter objects: " + world.bodies.length);
+//	console.log("Matter objects: " + world.bodies.length);
 }
 
 
@@ -232,6 +267,16 @@ function keyPressed() {
 function mouseReleased() {
 	setTimeout(() => {
 		launcher.release();
+		removescore();
 	}, 100);
 }
 
+function showscore() {
+	document.getElementById('score').style.visibility='visible';
+}
+
+function removescore() {
+		setTimeout(() => {
+		document.getElementById('score').style.visibility='hidden';
+	}, 3000);
+}
