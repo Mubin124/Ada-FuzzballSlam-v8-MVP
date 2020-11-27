@@ -6,12 +6,12 @@ body {
 
 .text_default {
 	font-family: 'Anton', sans-serif;
-	font-size: 20vw;
+	font-size: 10vw;
 }
 
 .text_title {
 	font-family: 'Bungee Shade', cursive;
-	font-size: 40vw;
+	font-size: 5vw;
 }
 
 .container {
@@ -27,4 +27,10 @@ body {
 	top: 0px;
 }
 
+#score {
+	position: absolute;
+	left: 300px;
+	top: 200px;
+	visibility: hidden;
+}
 
